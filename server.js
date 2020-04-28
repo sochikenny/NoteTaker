@@ -16,16 +16,16 @@ let rawnoteData = [];
 // Sets up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static(__dirname + 'Develop/public'));
+app.use(express.static(__dirname + '/public'));
 
 //Routes for HTML
 //--Home Page ROute
 app.get("/", function (req, res) {
-  res.sendFile(path.join(__dirname, "Develop/public/index.html"));
+  res.sendFile(path.join(__dirname, "/public/index.html"));
 });
 //--Notes Route 
 app.get("/notes", function (req, res) {
-  res.sendFile(path.join(__dirname, "Develop/public/notes.html"));
+  res.sendFile(path.join(__dirname, "/public/notes.html"));
 });
 
 //-----API ROUTES-----------
@@ -33,7 +33,7 @@ app.get("/notes", function (req, res) {
 app.get("/api/notes", function (req, res) {
 
   try {
-    rawnoteData = fs.readFileSync("Develop/db/db.json", "utf8");
+    rawnoteData = fs.readFileSync(path.join(__dirname, "./db/db.json"), "utf8");
 
     rawnoteData = JSON.parse(rawnoteData);
   }
@@ -49,7 +49,7 @@ app.get("/api/notes", function (req, res) {
 app.post("/api/notes", function (req, res) {
 
   try {
-    rawnoteData = fs.readFileSync("Develop/db/db.json", "utf8");
+    rawnoteData = fs.readFileSync(path.join(__dirname, "./db/db.json"), "utf8");
 
     rawnoteData = JSON.parse(rawnoteData);
 
@@ -59,9 +59,11 @@ app.post("/api/notes", function (req, res) {
 
     rawnoteData = JSON.stringify(rawnoteData);
 
-    fs.writeFile("Develop/db/db.json", rawnoteData, "utf8", function (err) {
-      if (err) throw err;
-    });
+    fs.writeFile(path.join(__dirname, "./db/db.json"), rawnoteData, "utf8",
+      function (err) {
+        if (err) throw err;
+
+      });
 
     res.json(JSON.parse(rawnoteData));
 
@@ -76,7 +78,7 @@ app.post("/api/notes", function (req, res) {
 
 app.delete("/api/notes/:id", function (req, res) {
   try {
-    rawnoteData = fs.readFileSync("Develop/db/db.json", "utf8");
+    rawnoteData = fs.readFileSync(path.join(__dirname, "./db/db.json"), "utf8");
 
     rawnoteData = JSON.parse(rawnoteData);
 
@@ -86,9 +88,11 @@ app.delete("/api/notes/:id", function (req, res) {
 
     rawnoteData = JSON.stringify(rawnoteData);
 
-    fs.writeFile("Develop/db/db.json", rawnoteData, "utf8", function (err) {
-      if (err) throw err;
-    });
+    fs.writeFile(path.join(__dirname, "./db/db.json"), rawnoteData, "utf8",
+      function (err) {
+        if (err) throw err;
+
+      });
 
     res.send(JSON.parse(rawnoteData));
 
